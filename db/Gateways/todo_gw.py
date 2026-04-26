@@ -1,7 +1,8 @@
-from schemas import InsertTodo,ShowTodo,UpdateTodo,DeleteTodo,InsertCategory,ShowCategory
-from database import dbManager
-class SQL:
-    # 外部キーを有効にするコンストラクタ
+from app.schemas import InsertTodo,ShowTodo,UpdateTodo,DeleteTodo
+from app.database import dbManager
+
+class SQL_todo:
+
     def __init__(self,db_admin:dbManager):
         self.db_admin=db_admin
         self.db_admin.cur.execute("PRAGMA foreign_keys = ON;")
@@ -38,20 +39,3 @@ class SQL:
     def delete_table(self,target_id):
         self.db_admin.cur.execute("delete from todo where id = ?", (target_id,))
         self.db_admin.conn.commit()
-
-    # カテゴリの作成
-    def create_category(self,category:InsertCategory):
-         self.db_admin.cur.execute('insert into category(name) values (?)',(category.name,))  
-         self.db_admin.conn.commit()
-         return {"message": "作成に成功しました"} 
-
-    # カテゴリの表示（category_idの表示が目的）
-    def show_category(self)->list[ShowCategory]:
-        self.db_admin.cur.execute('select * from category')
-        categories=self.db_admin.cur.fetchall()
-        
-        return [ShowCategory(**dict(category)) for category in categories]
-
-
-
-     
