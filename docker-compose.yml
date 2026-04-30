@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: postgres:17        # DockerHubの公式イメージを使う
+    ports:
+      - "54327:5432"          # 自分のPC:コンテナ のポート対応
+
+    environment:              # PostgreSQLの初期設定（ユーザー名・パスワード等）
+      POSTGRES_USER: admin       # オプション（省略するとデフォルトはpostgres）
+      POSTGRES_PASSWORD: password  #  これだけ必須
+      POSTGRES_DB: app_db        # オプション（省略するとUSERと同じ名前になる）
+
+    volumes:
+      - rdb-data:/var/lib/postgresql/data  # DBデータをコンテナ外のホストマシンに永続化
+
+  backend:
+   build:
+      context: ./backend      # このフォルダのDockerfileでビルド
+   ports:
+      - "8000:8000"        
+   environment:
+      DB_USER: admin
+      DB_PASS: password
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: app_db
+   
+   depends_on:
+      - postgres              # postgresが先に起動してからbackendを起動
+   volumes:
+      - ./backend:/app        # ローカルのコードをコンテナに同期（--reloadと組み合わせてホットリロード）
+   command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload      # 起動コマンド
+
+volumes:
+  rdb-data:

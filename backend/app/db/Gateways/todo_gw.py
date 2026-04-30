@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from db.models import Todo, CreateTodo, ReadTodo, UpdateTodo
+from app.db.models import Todo, CreateTodo, ReadTodo, UpdateTodo
 import uuid
 
 class SQL_todo:

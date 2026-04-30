@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends
-from db.models import Todo, CreateTodo, ReadTodo, UpdateTodo
-from db.Gateways.todo_gw import SQL_todo
-from database import get_session
+from app.db.models import Todo, CreateTodo, ReadTodo, UpdateTodo
+from app.db.Gateways.todo_gw import SQL_todo
+from app.database import get_session
 from sqlmodel import Session
 import uuid
 # URLの先頭の名前を統一／APIをグループ化するためにタグ付け

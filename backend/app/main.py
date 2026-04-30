@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from database import create_db
-from routers import todos, categories
+from app.database import create_db
+from app.routers import todos, categories
 
 app = FastAPI()
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends
-from db.models import Category, InsertCategory, ReadCategory
-from db.Gateways.category_gw import SQL_category
-from database import get_session
+from app.db.models import Category, InsertCategory, ReadCategory
+from app.db.Gateways.category_gw import SQL_category
+from app.database import get_session
 from sqlmodel import Session
 router = APIRouter(prefix="/category", tags=["category"])
 

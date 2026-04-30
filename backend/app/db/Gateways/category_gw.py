@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from db.models import Category, InsertCategory, ReadCategory
+from app.db.models import Category, InsertCategory, ReadCategory
 import uuid
 
 class SQL_category:
