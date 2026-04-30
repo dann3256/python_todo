@@ -1,15 +1,16 @@
 from fastapi import APIRouter,Depends
-from schemas import InsertCategory,ShowCategory
+from db.models import Category, InsertCategory, ReadCategory
 from db.Gateways.category_gw import SQL_category
-from database import dbManager, get_db
+from database import get_session
+from sqlmodel import Session
 router = APIRouter(prefix="/category", tags=["category"])
 
 @router.post('/')
-def insert_category(category:InsertCategory,db:dbManager=Depends(get_db)):
+def insert_category(category:InsertCategory,db:Session=Depends(get_session)):
     SQLmanager=SQL_category(db)
     return SQLmanager.create_category(category)
 
-@router.get('/',response_model=list[ShowCategory])
-def show_category(db:dbManager=Depends(get_db)):
+@router.get('/',response_model=list[ReadCategory])
+def show_category(db:Session=Depends(get_session)):
     SQLmanager=SQL_category(db)
-    return SQLmanager.show_category()
+    return SQLmanager.show_categories()
